@@ -5,6 +5,7 @@ import {
   updateApplication,
 } from "../services/application.service";
 import { findUserIdByName } from "../services/auth.service";
+import { getApplications } from "../services/client.service";
 
 const router = Router();
 
@@ -49,4 +50,17 @@ router.put(
   }
 );
 
+router.get(
+  "/applications",
+  auth.required,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const applications = await getApplications(req.query.title as string);
+
+      res.json(applications);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 export default router;

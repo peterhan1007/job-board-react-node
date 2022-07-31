@@ -82,6 +82,7 @@ export const login = async (userPayload: any) => {
       name,
     },
     select: {
+      id: true,
       name: true,
       password: true,
       role: true,
@@ -96,6 +97,7 @@ export const login = async (userPayload: any) => {
 
     if (match) {
       return {
+        id: user.id,
         name: user.name,
         role: user.role,
         rate: user.rate,

@@ -39,8 +39,6 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       let jobs;
-      //  = await getJobs(req.auth.name);
-
       const currentUser = await getCurrentUser(req.auth.name as string);
 
       if (currentUser.role === "FREELANCER")

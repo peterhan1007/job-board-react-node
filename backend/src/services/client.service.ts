@@ -1,6 +1,6 @@
 import prisma from "../docs/prisma-client";
 import HttpException from "../models/http-exception.model";
-import { Job, User } from "@prisma/client";
+import { Application, Job, User } from "@prisma/client";
 import { SelfJob } from "../models/job.model";
 
 export const createJob = async (
@@ -35,7 +35,7 @@ export const createJob = async (
 
 export const getJobs = async (input: string): Promise<Array<Job>> => {
   if (!input) {
-    throw new HttpException(422, { errors: { title: ["can't be blank"] } });
+    throw new HttpException(422, { errors: { input: ["can't be blank"] } });
   }
 
   const jobs = await prisma.job.findMany({
@@ -47,6 +47,24 @@ export const getJobs = async (input: string): Promise<Array<Job>> => {
   });
 
   return jobs;
+};
+
+export const getApplications = async (
+  input: string
+): Promise<Array<Application>> => {
+  if (!input) {
+    throw new HttpException(422, { errors: { input: ["can't be blank"] } });
+  }
+
+  const applications = await prisma.application.findMany({
+    where: {
+      job: {
+        title: input,
+      },
+    },
+  });
+
+  return applications;
 };
 
 export const updateJob = async (title: string, approved: number) => {

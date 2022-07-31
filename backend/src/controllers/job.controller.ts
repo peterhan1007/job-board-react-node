@@ -1,8 +1,11 @@
 import { NextFunction, Request, Response, Router } from "express";
 import auth from "../utils/auth";
 // import { createJob } from "../services/job.service";
-import { updateApplication } from "../services/application.service";
-import { getCurrentUser } from "../services/auth.service";
+import {
+  updateApplication,
+  applyRequest,
+  getApplies,
+} from "../services/application.service";
 
 const router = Router();
 
@@ -21,6 +24,35 @@ router.get(
       const jobs = req.auth.user.jobs;
 
       res.json(jobs);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  "/accept",
+  auth.required,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { jobId, id, userId } = req.body;
+
+      const apply = await applyRequest(jobId, id, userId);
+      res.json(apply);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  "/applies",
+  auth.required,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const applies = await getApplies();
+
+      res.json(applies);
     } catch (error) {
       next(error);
     }

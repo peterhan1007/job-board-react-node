@@ -22,6 +22,7 @@ export const Login = (
 ): Promise<
   AxiosResponse<{
     user: {
+      id: number;
       name: string;
       role: string;
       title: string;
@@ -46,6 +47,7 @@ export const getProfileWithToken = (
   token: string
 ): Promise<
   AxiosResponse<{
+    id: number;
     name: string;
     role: string;
     description: string;

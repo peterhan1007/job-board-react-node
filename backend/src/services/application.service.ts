@@ -1,6 +1,6 @@
 import prisma from "../docs/prisma-client";
 import HttpException from "../models/http-exception.model";
-import { Application } from "@prisma/client";
+import { Application, ApplyRequest } from "@prisma/client";
 import { SelfApplication } from "../models/application.model";
 
 export const createApplication = async (
@@ -25,6 +25,7 @@ export const createApplication = async (
     },
     select: {
       content: true,
+      rate: true,
     },
   });
 
@@ -52,4 +53,32 @@ export const updateApplication = async (
   });
 
   return application;
+};
+
+export const applyRequest = async (
+  jobId: number,
+  id: number,
+  userId: number
+) => {
+  const applyRequest = await prisma.applyRequest.create({
+    data: {
+      jobId: Number(jobId),
+      clientId: Number(id),
+      userId: Number(userId),
+    },
+    select: {
+      jobId: true,
+      clientId: true,
+      userId: true,
+    },
+  });
+
+  return applyRequest;
+};
+
+export const getApplies = async () => {
+  const applies = await prisma.applyRequest.findMany();
+
+  console.log("here: ", applies);
+  return applies;
 };

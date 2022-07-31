@@ -11,7 +11,7 @@ import {
   Image,
   useToast,
 } from "@chakra-ui/react";
-import { Formik, Form, useFormik } from "formik";
+import { useFormik } from "formik";
 import { Link as ReachLink, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import { loginAsync } from "../../redux/auth/authSlice";

@@ -12,7 +12,7 @@ export default function Job() {
   const jobs = useAppSelector((state) => state.job.jobs);
 
   useEffect(() => {
-    dispatch(getJobsAsync({ name: String(username) }));
+    dispatch(getJobsAsync());
   }, []);
 
   return (

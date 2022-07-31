@@ -7,19 +7,25 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Button,
   Stack,
   FormControl,
   FormLabel,
   Input,
+  Button,
+  Textarea,
+  Toast,
+  useToast,
 } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Form, Formik } from "formik";
 import React from "react";
-import { ProfileSchema } from "../../utils";
-import { profileAsync } from "../../redux/auth/authSlice";
+import {
+  createApplicationAsync,
+  createJobAsync,
+} from "../../redux/job/jobSlice";
+import { ApplicationSchema, JobSchema } from "../../utils";
 
-const ProfileModal = () => {
+const BidModal = () => {
   const OverlayOne = () => (
     <ModalOverlay
       bg="blackAlpha.300"
@@ -39,75 +45,66 @@ const ProfileModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = React.useState(<OverlayOne />);
   const dispatch = useAppDispatch();
-  const currentUserTitle = useAppSelector((state) => state.auth.title);
-  const currentUserDescription = useAppSelector(
-    (state) => state.auth.description
-  );
-  const currentUserRate = useAppSelector((state) => state.auth.rate);
+  const toast = useToast();
 
   return (
     <>
-      <div
+      <Button
+        variant={"solid"}
         onClick={() => {
           setOverlay(<OverlayTwo />);
           onOpen();
         }}
+        colorScheme={"teal"}
+        size={"sm"}
       >
-        Profile
-      </div>
+        Application
+      </Button>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         {overlay}
         <ModalContent>
-          <ModalHeader>Profile</ModalHeader>
+          <ModalHeader>Write a bid</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Formik
               initialValues={{
-                title: currentUserTitle,
-                description: currentUserDescription,
-                rate: currentUserRate,
+                content: "",
+                rate: 1,
               }}
-              validationSchema={ProfileSchema}
-              onSubmit={({ title, description, rate }) => {
-                dispatch(profileAsync({ title, description, rate }));
+              validationSchema={ApplicationSchema}
+              onSubmit={({ content, rate }) => {
+                dispatch(createApplicationAsync({ content, rate })).then(
+                  (res) => {
+                    toast({
+                      title: "Success",
+                      description: "You wrote a bid successfully",
+                      status: "success",
+                      duration: 9000,
+                      isClosable: true,
+                    });
+                  }
+                );
               }}
             >
               {({ errors, touched, values, handleChange }) => (
                 <Form>
                   <Stack spacing="6">
+                    <Stack>
+                      <FormControl>
+                        <FormLabel htmlFor="text">content</FormLabel>
+                        <Textarea
+                          id="content"
+                          value={values.content}
+                          onChange={handleChange("content")}
+                          placeholder="content's length is between 10 and 100"
+                        />
+                        {errors.content && touched.content ? (
+                          <div className="error">{errors.content}</div>
+                        ) : null}
+                      </FormControl>
+                    </Stack>
+
                     <Stack spacing="5">
-                      <FormControl>
-                        <FormLabel htmlFor="text">Title</FormLabel>
-                        <Input
-                          id="title"
-                          type="text"
-                          value={values.title}
-                          onChange={handleChange("title")}
-                          placeholder="Title's length is between 10 and 30"
-                        />
-                        {errors.title && touched.title ? (
-                          <div className="error">{errors.title}</div>
-                        ) : null}
-                      </FormControl>
-                    </Stack>
-
-                    <Stack>
-                      <FormControl>
-                        <FormLabel htmlFor="text">Description</FormLabel>
-                        <Input
-                          id="description"
-                          type="textarea"
-                          value={values.description}
-                          onChange={handleChange("description")}
-                          placeholder="Description's length is between 2 and 100"
-                        />
-                        {errors.description && touched.description ? (
-                          <div className="error">{errors.description}</div>
-                        ) : null}
-                      </FormControl>
-                    </Stack>
-
-                    <Stack>
                       <FormControl>
                         <FormLabel htmlFor="text">Rate</FormLabel>
                         <Input
@@ -115,7 +112,7 @@ const ProfileModal = () => {
                           type="number"
                           value={values.rate}
                           onChange={handleChange("rate")}
-                          placeholder="Rate's length is between 2 and 100"
+                          placeholder="Rate's length is between 1 and 120"
                         />
                         {errors.rate && touched.rate ? (
                           <div className="error">{errors.rate}</div>
@@ -130,7 +127,9 @@ const ProfileModal = () => {
                       onClick={onClose}
                       disabled={
                         Array.isArray(errors) ||
-                        Object.values(errors).toString() !== ""
+                        Object.values(errors).toString() !== "" ||
+                        !values.content ||
+                        !values.rate
                       }
                     >
                       OK
@@ -146,4 +145,4 @@ const ProfileModal = () => {
   );
 };
 
-export default ProfileModal;
+export default BidModal;

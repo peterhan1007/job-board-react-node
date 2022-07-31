@@ -13,6 +13,10 @@ tr {
   text-align: center !important;
 }
 
+tr {
+  cursor: pointer;
+}
+
 .center {
   width: 20px !important;
   margin-left: auto !important;

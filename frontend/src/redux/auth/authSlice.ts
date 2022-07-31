@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { profile } from "../../redux/user/userAPI";
-import { string } from "yup";
 import { RootState } from "../../app/store";
 import { getProfileWithToken, Login, Register } from "./authAPI";
 
 export interface AuthState {
+  id: number;
   username: string;
   role: string;
   title: string;
@@ -15,6 +15,7 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
+  id: 0,
   username: "",
   role: "FREELANCER",
   title: "",
@@ -104,9 +105,11 @@ export const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
-        const { name, role, title, description, rate, token } = action.payload;
+        const { id, name, role, title, description, rate, token } =
+          action.payload;
         state.status = "success";
         state.isLoading = false;
+        state.id = id;
         state.username = name;
         state.role = role;
         state.title = title;
@@ -125,6 +128,7 @@ export const authSlice = createSlice({
       .addCase(getProfileWithTokenAsync.fulfilled, (state, action) => {
         state.status = "success";
         state.isLoading = false;
+        state.id = action.payload.id;
         state.username = action.payload.name;
         state.role = action.payload.role;
         state.title = action.payload.title;
@@ -158,19 +162,9 @@ export const selectAuthName = (state: RootState) => state.auth.username;
 export const selectAuthRole = (state: RootState) => state.auth.role;
 export const selectAuthTitle = (state: RootState) => state.auth.title;
 export const selectAuthRate = (state: RootState) => state.auth.rate;
+export const selectAuthId = (state: RootState) => state.auth.id;
 export const selectAuthdescription = (state: RootState) =>
   state.auth.description;
-
 export const { init } = authSlice.actions;
-// // We can also write thunks by hand, which may contain both sync and async logic.
-// // Here's an example of conditionally dispatching actions based on current state.
-// export const incrementIfOdd =
-//   (amount: number): AppThunk =>
-//   (dispatch, getState) => {
-//     const currentValue = selectCount(getState());
-//     if (currentValue % 2 === 1) {
-//       dispatch(incrementByAmount(amount));
-//     }
-//   };
 
 export default authSlice.reducer;

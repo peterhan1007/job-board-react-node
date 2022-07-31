@@ -1,10 +1,8 @@
-import { ReactNode, useState } from "react";
 import {
   Box,
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -14,7 +12,6 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  LinkProps,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as ReachLink, useNavigate } from "react-router-dom";
@@ -32,7 +29,9 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const username = useAppSelector((state) => state.auth.username);
+  const role = useAppSelector((state) => state.auth.role);
   const Links = ["Dashboard", "Jobs"];
+
   if (username === "admin") Links.push("users");
 
   const handleClickSignOut = () => {
@@ -64,7 +63,7 @@ export default function Header() {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <JobModal />
+            {role !== ("FREELANCER" || "ADMIN") && <JobModal />}
             <Menu>
               <MenuButton
                 as={Button}

@@ -1,11 +1,7 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { Job } from "./job.type";
-
-declare module "axios" {
-  export interface AxiosRequestConfig {
-    name?: string;
-  }
-}
+import { Application } from "./application.type";
+import { ApplyRequest } from "./applyRequest.type";
 
 const API = axios.create({ baseURL: "http://localhost:3000/api" });
 
@@ -17,8 +13,8 @@ API.interceptors.request.use((req: any) => {
   return req;
 });
 
-export const getJobs = (name: string): Promise<AxiosResponse<Array<Job>>> =>
-  API.get("/job", { name });
+export const getJobs = (): Promise<AxiosResponse<Array<Job>>> =>
+  API.get("/job");
 
 export const createJob = (
   title: string,
@@ -28,6 +24,7 @@ export const createJob = (
 ): Promise<
   AxiosResponse<{
     user: {
+      id: number;
       title: string;
       description: string;
       rate: number;
@@ -41,3 +38,22 @@ export const updateJob = (
   approved: boolean
 ): Promise<AxiosResponse<{ title: string }>> =>
   API.patch("/job", { title, approved });
+
+export const createApplication = (
+  content: string,
+  rate: number
+): Promise<AxiosResponse> => API.post("/application", { content, rate });
+
+export const getApplications = (
+  title: string
+): Promise<AxiosResponse<Array<Application>>> =>
+  API.get("/applications", { params: { title } });
+
+export const applyRequest = (
+  jobId: number,
+  id: number,
+  userId: number
+): Promise<AxiosResponse<any>> => API.post("/accept", { jobId, id, userId });
+
+export const getApplies = (): Promise<AxiosResponse<Array<ApplyRequest>>> =>
+  API.get("/applies", {});

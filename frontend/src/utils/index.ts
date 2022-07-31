@@ -1,4 +1,3 @@
-import { useAppSelector } from "../app/hooks";
 import * as Yup from "yup";
 
 const SignSchema = () =>
@@ -64,4 +63,19 @@ const ProfileSchema = () =>
     rate: Yup.number().min(1).max(120).required("Required"),
   });
 
-export { SignSchema, SignUpSchema, JobSchema, ProfileSchema };
+const ApplicationSchema = () =>
+  Yup.object().shape({
+    content: Yup.string()
+      .min(1, "Too Short!")
+      .max(200, "Too Long!")
+      .required("Required"),
+    rate: Yup.number().min(1).max(120).required("Required"),
+  });
+
+export {
+  SignSchema,
+  SignUpSchema,
+  JobSchema,
+  ProfileSchema,
+  ApplicationSchema,
+};

@@ -1,33 +1,61 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import { Application } from "./application.type";
+import { ApplyRequest } from "./applyRequest.type";
 import { Job } from "./job.type";
-import { createJob, getJobs, updateJob } from "./jobAPI";
+import {
+  applyRequest,
+  createApplication,
+  createJob,
+  getApplications,
+  getApplies,
+  getJobs,
+  updateJob,
+} from "./jobAPI";
 
 export interface JobState {
   jobs: Array<Job>;
+  bids: Array<Application>;
   status: "request" | "success" | "failed";
   isLoading: boolean;
+  applies: Array<ApplyRequest>;
 }
 
 const initialState: JobState = {
   jobs: [],
+  bids: [],
+  applies: [],
   status: "request",
   isLoading: false,
 };
 
-export const getJobsAsync = createAsyncThunk(
-  "GetJobs",
-  async ({ name }: { name: string }) => {
-    const response = await getJobs(name);
+export const getJobsAsync = createAsyncThunk("GetJobs", async () => {
+  const response = await getJobs();
 
-    return response.data;
-  }
-);
+  return response.data;
+});
 
 export const updateJobAsync = createAsyncThunk(
   "UpdateJob",
   async ({ title, approved }: { title: string; approved: boolean }) => {
     const response = await updateJob(title, approved);
+
+    return response.data;
+  }
+);
+
+export const applyRequestAsync = createAsyncThunk(
+  "ApplyRequest",
+  async ({
+    jobId,
+    id,
+    userId,
+  }: {
+    jobId: number;
+    id: number;
+    userId: number;
+  }) => {
+    const response = await applyRequest(jobId, id, userId);
 
     return response.data;
   }
@@ -51,6 +79,30 @@ export const createJobAsync = createAsyncThunk(
     return response.data.user;
   }
 );
+
+export const createApplicationAsync = createAsyncThunk(
+  "CreateApplication",
+  async ({ content, rate }: { content: string; rate: number }) => {
+    const response = await createApplication(content, rate);
+
+    return response.data.user;
+  }
+);
+
+export const getApplicationsAsync = createAsyncThunk(
+  "getApplications",
+  async ({ title }: { title: string }) => {
+    const response = await getApplications(title);
+
+    return response.data;
+  }
+);
+
+export const getAppliesAsync = createAsyncThunk("getApplies", async () => {
+  const response = await getApplies();
+
+  return response.data;
+});
 
 export const jobSlice = createSlice({
   name: "Job",
@@ -102,27 +154,39 @@ export const jobSlice = createSlice({
       .addCase(updateJobAsync.rejected, (state) => {
         state.status = "failed";
         state.isLoading = true;
+      })
+      .addCase(getApplicationsAsync.pending, (state) => {
+        state.status = "request";
+        state.isLoading = true;
+      })
+      .addCase(getApplicationsAsync.fulfilled, (state, action) => {
+        state.status = "success";
+        state.isLoading = false;
+        state.bids = action.payload;
+      })
+      .addCase(getApplicationsAsync.rejected, (state) => {
+        state.status = "failed";
+        state.isLoading = true;
+      })
+      .addCase(getAppliesAsync.pending, (state) => {
+        state.status = "request";
+        state.isLoading = true;
+      })
+      .addCase(getAppliesAsync.fulfilled, (state, action) => {
+        state.status = "success";
+        state.isLoading = false;
+        state.applies = action.payload;
+      })
+      .addCase(getAppliesAsync.rejected, (state) => {
+        state.status = "failed";
+        state.isLoading = true;
       });
   },
 });
 
-// export const { Login } = authSlice.actions;
-
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectGetJobStatus = (state: RootState) => state.job.status;
 export const selectGetJob = (state: RootState) => state.job.jobs;
-
-// // We can also write thunks by hand, which may contain both sync and async logic.
-// // Here's an example of conditionally dispatching actions based on current state.
-// export const incrementIfOdd =
-//   (amount: number): AppThunk =>
-//   (dispatch, getState) => {
-//     const currentValue = selectCount(getState());
-//     if (currentValue % 2 === 1) {
-//       dispatch(incrementByAmount(amount));
-//     }
-//   };
+export const selectGetBids = (state: RootState) => state.job.bids;
+export const selectGetApplies = (state: RootState) => state.job.applies;
 
 export default jobSlice.reducer;
