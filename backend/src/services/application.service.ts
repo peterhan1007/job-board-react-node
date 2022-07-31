@@ -79,6 +79,5 @@ export const applyRequest = async (
 export const getApplies = async () => {
   const applies = await prisma.applyRequest.findMany();
 
-  console.log("here: ", applies);
   return applies;
 };
