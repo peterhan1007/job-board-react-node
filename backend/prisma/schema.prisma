@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Profile {
+  id     Int     @default(autoincrement()) @id
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int     @unique
+}
+
+model Job {
+  id            Int       @default(autoincrement()) @id
+  title         String    @db.VarChar(20)
+  description   String    @db.VarChar(100)
+  rate          Int
+  approved      Boolean
+  status        String    @db.VarChar(20)
+  user          User      @relation(fields: [userId], references: [id])
+  userId        Int
+}
+
+model User {
+  id      Int      @default(autoincrement()) @id
+  name    String
+  password String
+  role    Role     @default(FREELANCER)   
+  title   String
+  description   String
+  rate    Int
+  approved Boolean
+  profile  Profile?
+  jobs     Job[]
+  applications Application[]
+  request ApplyRequest[]
+}
+
+
+model Application {
+  id       Int       @default(autoincrement()) @id
+  content  String    @db.VarChar(100)
+  rate     Int
+  user          User      @relation(fields: [userId], references: [id])
+  userId        Int       @unique
+}
+
+model ApplyRequest {
+  id         Int       @default(autoincrement()) @id
+  jobId      Int
+  clientId   Int
+  user          User      @relation(fields: [userId], references: [id])
+  userId        Int       @unique
+}
+
+enum Role {
+  CLIENT
+  FREELANCER
+  ADMIN
+}
