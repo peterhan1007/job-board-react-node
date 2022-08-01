@@ -17,6 +17,7 @@ router.post(
   auth.required,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log("here: ", req.body, req.auth.name);
       const userId = await findUserIdByName(req.auth.name);
       const user = await createJob(req.body, Number(userId.id));
       res.json({ user });

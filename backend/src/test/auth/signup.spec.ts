@@ -26,7 +26,7 @@ describe("Sign up", () => {
           done();
         });
     });
-    it("should login fail", (done) => {
+    it("should signup fail", (done) => {
       chai
         .request(app)
         .post("/api/users")

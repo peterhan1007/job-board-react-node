@@ -1,7 +1,7 @@
 {
   "name": "express",
   "version": "1.0.0",
-  "description": "",
+  "description": "- TypeScript (https://github.com/Microsoft/TypeScript)\r - Express.js (https://github.com/expressjs/express)\r - Prisma ORM (https://github.com/prisma/prisma)\r - PostgreSQL (https://www.postgresql.org/)\r - pgAdmin GUI tool for PostgreSQL (https://www.pgadmin.org/)\r - Docker-Compose for running all together",
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
@@ -21,11 +21,13 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^2.30.3",
+    "@reportportal/agent-js-mocha": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.17.1",
     "express-jwt": "^7.7.5",
     "jsonwebtoken": "^8.5.1",
@@ -40,11 +42,15 @@
     "@types/mocha": "^9.1.1",
     "@types/node": "^17.0.45",
     "@types/swagger-ui-express": "^4.1.3",
+    "cross-env": "^7.0.3",
     "jest": "^27.0.6",
     "mocha": "^10.0.0",
     "nodemon": "^2.0.19",
     "prisma": "^2.30.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
+  },
+  "directories": {
+    "test": "test"
   }
 }
