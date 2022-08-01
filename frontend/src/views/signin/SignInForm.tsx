@@ -47,12 +47,13 @@ export default function SignInForm() {
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} id="sign_in_form">
           <Stack spacing={4} w={"full"} maxW={"md"}>
             <Heading fontSize={"2xl"}>Sign in to your account</Heading>
             <FormControl id="name">
               <FormLabel>Name</FormLabel>
               <Input
+                id="username"
                 type="text"
                 value={values.name}
                 onChange={handleChange("name")}
@@ -64,6 +65,7 @@ export default function SignInForm() {
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <Input
+                id="password"
                 type="password"
                 value={values.password}
                 onChange={handleChange("password")}

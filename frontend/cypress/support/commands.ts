@@ -25,16 +25,23 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login(username: string, password: string): Chainable<void>;
+      drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>;
+      dismiss(
+        subject: string,
+        options?: Partial<TypeOptions>
+      ): Chainable<Element>;
+      visit(
+        originalFn: CommandOriginalFn,
+        url: string,
+        options: Partial<VisitOptions>
+      ): Chainable<Element>;
+    }
+  }
+}
 
 Cypress.Commands.add(
   "loginByAuth0Api",
@@ -43,17 +50,16 @@ Cypress.Commands.add(
 
     cy.request({
       method: "POST",
-      url: `http://${Cypress.env("auth0_domain")}/sign-in`,
+      url: `http://${Cypress.env("auth0_domain")}/api/login`,
       body: {
-        username,
+        name: username,
         password,
       },
-    }).then(({ body }) => {
+    }).then((body) => {
       const { id, name, role, title, description, rate, token } = body;
-
       window.localStorage.setItem("api-token", JSON.stringify(token));
 
-      cy.visit("/");
+      cy.visit("http://localhost:3001/jobs");
     });
   }
 );

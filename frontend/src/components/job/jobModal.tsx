@@ -43,6 +43,7 @@ const JobModal = () => {
   return (
     <>
       <Button
+        id="create-job-button"
         variant={"solid"}
         ml="4"
         onClick={() => {
@@ -140,6 +141,7 @@ const JobModal = () => {
                     </Stack>
 
                     <Button
+                      id="ok"
                       colorScheme={"blue"}
                       variant={"solid"}
                       type="submit"
