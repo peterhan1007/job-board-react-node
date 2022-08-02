@@ -1,4 +1,4 @@
-import React, { Children, ReactNode, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -49,7 +49,7 @@ const AppRouter = (): JSX.Element => {
   useEffect(() => {
     const token = localStorage.getItem("api-token");
     !!token && dispatch(getProfileWithTokenAsync({ token }));
-  }, []);
+  });
 
   return <Router>{username ? AppRoute() : AuthRoute()}</Router>;
 };

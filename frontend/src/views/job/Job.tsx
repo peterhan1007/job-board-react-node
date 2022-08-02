@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { Box } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect } from "react";
@@ -13,7 +15,7 @@ export default function Job() {
 
   useEffect(() => {
     dispatch(getJobsAsync());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

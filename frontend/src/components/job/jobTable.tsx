@@ -54,7 +54,7 @@ export const JobTable = ({
 
   useEffect(() => {
     dispatch(getAppliesAsync());
-  }, []);
+  }, [dispatch]);
 
   const One = () => (
     <ModalOverlay

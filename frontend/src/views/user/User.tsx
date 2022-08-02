@@ -1,6 +1,8 @@
+import * as React from "react";
 import { Box } from "@chakra-ui/react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect } from "react";
+
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getUsersAsync } from "../../redux/user/userSlice";
 import { UserTable } from "../../components/user/userTable";
 
@@ -11,7 +13,7 @@ export default function UserList() {
 
   useEffect(() => {
     dispatch(getUsersAsync());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

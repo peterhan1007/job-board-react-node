@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+
 import { Logo } from "../../assets/Logo";
 import { OAuthButtonGroup } from "../../components/signin/OAuthButtonGroup";
 import { SignUpSchema } from "../../utils";

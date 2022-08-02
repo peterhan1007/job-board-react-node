@@ -1,5 +1,17 @@
 {
   "devDependencies": {
     "cross-env": "^7.0.3"
+  },
+  "folders": [
+    {
+      "path": "test"
+    }
+  ],
+  "settings": {
+    "eslint.nodePath": "myCustomNodePath"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": true
   }
 }
