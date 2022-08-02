@@ -1,3 +1,4 @@
+import React from "react";
 import { AddIcon } from "@chakra-ui/icons";
 import {
   Modal,
@@ -13,9 +14,9 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
+
 import { useAppDispatch } from "../../app/hooks";
 import { ErrorMessage, Form, Formik } from "formik";
-import React from "react";
 import { createJobAsync } from "../../redux/job/jobSlice";
 import { JobSchema } from "../../utils";
 

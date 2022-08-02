@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+
 import { User } from "./user.type";
 
 declare module "axios" {
@@ -41,33 +42,3 @@ export const profile = (
 ): Promise<
   AxiosResponse<{ user: { title: string; description: string; rate: number } }>
 > => API.patch("/profile", { title, description, rate });
-// export const createJob = (
-//   title: string,
-//   description: string,
-//   rate: number,
-//   status: string
-// ): Promise<
-//   AxiosResponse<{
-//     user: {
-//       title: string;
-//       description: string;
-//       rate: number;
-//       status: string;
-//     };
-//   }>
-// > => API.post("/job", { title, description, rate, status });
-
-// export const updateJob = (
-//   title: string,
-//   approved: boolean
-// ): Promise<AxiosResponse<string>> => API.patch("/job", { title, approved });
-
-/*
-name: string;
-  password: string;
-  role: string;
-  title: string;
-  description: string;
-  rate: number;
-  approved: boolean;
-*/

@@ -14,5 +14,6 @@ export default defineConfig({
     auth2_username: "admin",
     auth2_password: "password",
     auth0_domain: "localhost:3001",
+    server_domain: "localhost:3000",
   },
 });

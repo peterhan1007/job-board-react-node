@@ -1,4 +1,5 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosResponse } from "axios";
+
 import { Job } from "./job.type";
 import { Application } from "./application.type";
 import { ApplyRequest } from "./applyRequest.type";

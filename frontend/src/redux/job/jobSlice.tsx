@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import { RootState } from "../../app/store";
 import { Application } from "./application.type";
 import { ApplyRequest } from "./applyRequest.type";

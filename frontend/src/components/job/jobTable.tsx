@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Table,
   Thead,
@@ -18,8 +19,8 @@ import {
   ModalBody,
   Button,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import { Application } from "redux/job/application.type";
+
+import { Application } from "../../redux/job/application.type";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import { Job } from "../../redux/job/job.type";

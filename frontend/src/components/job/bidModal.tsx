@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import React from "react";
 import {
   Modal,
   ModalOverlay,
@@ -13,17 +13,13 @@ import {
   Input,
   Button,
   Textarea,
-  Toast,
   useToast,
 } from "@chakra-ui/react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { Form, Formik } from "formik";
-import React from "react";
-import {
-  createApplicationAsync,
-  createJobAsync,
-} from "../../redux/job/jobSlice";
-import { ApplicationSchema, JobSchema } from "../../utils";
+
+import { createApplicationAsync } from "../../redux/job/jobSlice";
+import { ApplicationSchema } from "../../utils";
 
 const BidModal = () => {
   const OverlayOne = () => (

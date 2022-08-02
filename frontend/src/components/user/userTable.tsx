@@ -10,9 +10,9 @@ import {
   FormControl,
   useToast,
 } from "@chakra-ui/react";
+
 import { User } from "../../redux/user/user.type";
 import { useAppDispatch } from "../../app/hooks";
-
 import { updateUserAsync } from "../../redux/user/userSlice";
 
 export const UserTable = ({ users }: { users: User[] }) => {

@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import React from "react";
 import {
   Modal,
   ModalOverlay,
@@ -13,11 +13,11 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Form, Formik } from "formik";
-import React from "react";
+
 import { ProfileSchema } from "../../utils";
 import { profileAsync } from "../../redux/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 const ProfileModal = () => {
   const OverlayOne = () => (

@@ -15,8 +15,6 @@ import Layout from "./components/layout";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { getProfileWithTokenAsync } from "./redux/auth/authSlice";
 
-const Loading = (): JSX.Element => <p>Loading...</p>;
-
 const AuthRoute = () => (
   <Routes>
     <Route path="/sign-up" element={<SignUpForm />} />
